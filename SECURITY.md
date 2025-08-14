@@ -11,6 +11,17 @@ The following files are **automatically excluded** from version control via `.gi
 - `*.log` - Log files
 - Various temporary and IDE files
 
+### 🔒 Cursor IDE Protection
+The following files are **excluded from Cursor's AI indexing** via `.cursorignore`:
+
+- `.env` - Environment variables and secrets
+- `azure_config_example.txt` - Azure configuration files
+- `*credentials*`, `*secret*`, `*key*` - Any files with sensitive terms
+- `*.pem`, `*.key`, `*.crt`, `*.p12`, `*.pfx` - Certificate and key files
+- `CONNECTION_TEST_RESULTS.md` - Test results with sensitive data
+- `test_*.py`, `*_test.py` - Test files that might contain sensitive data
+- Virtual environments and cache directories
+
 ### ✅ Safe Files for Version Control
 The following files are **safe to commit** to version control:
 
@@ -76,6 +87,10 @@ git status
 
 # Verify no credentials in tracked files
 grep -r "AZURE_CLIENT_SECRET" . --exclude-dir=.git --exclude-dir=azure_env
+
+# Verify .cursorignore is configured
+ls -la .cursorignore
+cat .cursorignore | grep -E "\.env|credentials|secret|key"
 ```
 
 ### Test Security
@@ -116,6 +131,7 @@ Before pushing to GitHub:
 - [ ] `.env.example` contains only placeholder values
 - [ ] No real credentials in any tracked files
 - [ ] `.gitignore` is properly configured
+- [ ] `.cursorignore` is configured to protect sensitive files
 - [ ] Security notices are added to documentation
 - [ ] Credentials are rotated if previously exposed
 - [ ] Flask secret key is changed from default in production

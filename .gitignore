@@ -64,3 +64,6 @@ logs/
 # Docker
 .dockerignore
 docker-compose.override.yml
+
+# Cursor IDE
+.cursorignore

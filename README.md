@@ -13,6 +13,17 @@ A comprehensive Python-based tool for managing Azure resources via API. This too
 
 ## Features
 
+### 🌐 **Web Application**
+- 🎨 **Modern Web Interface**: Beautiful, responsive Flask-based web application
+- 🔍 **Advanced Search & Filtering**: Real-time search with resource type and location filters
+- 🎮 **Interactive Resource Management**: Start/Stop/Restart VMs with action buttons
+- 💰 **Cost Analytics**: Real-time cost estimation and display
+- 🌙 **Dark/Light Theme**: Toggle between themes with persistent preferences
+- 📋 **Detailed Resource Views**: Comprehensive modals with resource information
+- 🔔 **Smart Notifications**: Success/Error/Info notifications with auto-dismiss
+- 📱 **Mobile Responsive**: Optimized for desktop, tablet, and mobile devices
+
+### 🔧 **Core Management Features**
 - 🔐 **Multiple Authentication Methods**: Service Principal, Interactive Browser, Managed Identity
 - 📊 **Resource Dashboard**: Comprehensive overview of all Azure resources
 - 🖥️ **Virtual Machine Management**: List, monitor, and manage VMs
@@ -84,6 +95,25 @@ python azure_cli.py auth
 python azure_cli.py dashboard
 ```
 
+### 4. Launch Web Application
+```bash
+# Start the web interface
+python app.py
+
+# Access the web application
+# Open your browser and go to: http://localhost:5000
+```
+
+### 5. Docker Deployment (Optional)
+```bash
+# Build and run with Docker
+docker-compose up --build
+
+# Or build and run manually
+docker build -t azure-management-tool .
+docker run -p 5000:5000 --env-file .env azure-management-tool
+```
+
 ## Usage Examples
 
 ### View All Resources
@@ -109,6 +139,24 @@ python azure_cli.py list webapps
 # List resource groups
 python azure_cli.py list resourcegroups
 ```
+
+### Web Application Usage
+```bash
+# Start the web application
+python app.py
+
+# Access the web interface
+# Open your browser and go to: http://localhost:5000
+```
+
+**Web Application Features:**
+- **Dashboard**: View all Azure resources in a beautiful web interface
+- **Search**: Real-time search across all resources
+- **Filtering**: Filter by resource type and location
+- **Resource Actions**: Start/Stop/Restart VMs directly from the web interface
+- **Detailed Views**: Click "View Details" for comprehensive resource information
+- **Theme Toggle**: Switch between dark and light themes
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
 
 ### Programmatic Usage
 ```python
@@ -140,6 +188,13 @@ AZURE_TENANT_ID=your_tenant_id_here
 AZURE_CLIENT_ID=your_client_id_here
 AZURE_CLIENT_SECRET=your_client_secret_here
 AZURE_DEFAULT_LOCATION=East US
+AZURE_DEFAULT_RESOURCE_GROUP=your_resource_group_name
+
+# Flask Web Application Configuration
+FLASK_SECRET_KEY=your-secret-key-change-this
+FLASK_DEBUG=False
+FLASK_ENV=production
+PORT=5000
 ```
 
 ## Service Principal Setup (Production)
@@ -253,14 +308,53 @@ For issues and questions:
 - ✅ Monitoring & Alerts
 - ✅ Cost Management
 
-## Future Enhancements
+## ✅ Implemented Features
 
-- [ ] VM start/stop operations
-- [ ] Resource creation/deletion
-- [ ] Backup management
-- [ ] Network security group management
-- [ ] Load balancer configuration
-- [ ] Auto-scaling rules
-- [ ] Cost optimization recommendations
-- [ ] Web interface
+### 🎯 **Quick Wins (Recently Added)**
+- ✅ **Web Interface**: Full Flask-based web application with modern UI
+- ✅ **Search & Filtering**: Real-time search across all resources with type and location filters
+- ✅ **Resource Actions**: Start/Stop/Restart VMs with action buttons
+- ✅ **Cost Display**: Estimated monthly cost calculations in dashboard
+- ✅ **Dark/Light Theme**: Toggle between themes with persistent preference
+- ✅ **Detailed Resource Modals**: Comprehensive resource information with action buttons
+- ✅ **Notification System**: Success/Error/Info notifications with auto-dismiss
+- ✅ **Responsive Design**: Mobile-friendly interface with modern styling
+
+### 🔧 **Core Features**
+- ✅ **Multiple Authentication Methods**: Service Principal, Interactive Browser, Managed Identity
+- ✅ **Resource Dashboard**: Comprehensive overview of all Azure resources
+- ✅ **Virtual Machine Management**: List, monitor, and manage VMs
+- ✅ **Storage Account Management**: Monitor storage accounts and their status
+- ✅ **Web App Management**: Manage Azure Web Apps and their configurations
+- ✅ **Resource Group Management**: Organize and manage resource groups
+- ✅ **Cost Management**: Monitor and analyze Azure costs
+- ✅ **Real-time Monitoring**: Get current status of all resources
+
+## 🚀 Future Enhancements
+
+### **High Priority**
+- [ ] **Real VM Operations**: Implement actual VM start/stop/restart via Azure API
+- [ ] **Resource Creation**: Create new VMs, storage accounts, and web apps
+- [ ] **Resource Deletion**: Safe deletion with confirmation dialogs
+- [ ] **User Authentication**: Add login system for web interface
+- [ ] **Role-based Access Control**: Different permissions for different users
+
+### **Medium Priority**
+- [ ] **Backup Management**: Azure Backup integration and management
+- [ ] **Network Security Groups**: Configure and manage NSG rules
+- [ ] **Load Balancer Configuration**: Set up and manage load balancers
+- [ ] **Auto-scaling Rules**: Configure VM scale sets and auto-scaling
+- [ ] **Cost Optimization**: AI-powered cost recommendations
+- [ ] **Export Functionality**: Export resource data to CSV/JSON
+- [ ] **Bulk Operations**: Perform actions on multiple resources
+
+### **Advanced Features**
+- [ ] **Real-time Monitoring**: Live resource status updates
+- [ ] **Alert Management**: Configure and manage Azure Monitor alerts
+- [ ] **Log Analytics**: Integration with Azure Log Analytics
+- [ ] **Container Management**: AKS cluster management
+- [ ] **Database Management**: SQL Database and Cosmos DB management
+- [ ] **API Rate Limiting**: Smart handling of Azure API limits
+- [ ] **Multi-subscription Support**: Manage multiple Azure subscriptions
+- [ ] **Audit Logging**: Track all actions performed through the tool
 # azure-management-tool
