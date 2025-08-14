@@ -263,3 +263,4 @@ For issues and questions:
 - [ ] Auto-scaling rules
 - [ ] Cost optimization recommendations
 - [ ] Web interface
+# azure-management-tool
