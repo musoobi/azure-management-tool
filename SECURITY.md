@@ -17,11 +17,17 @@ The following files are **safe to commit** to version control:
 - `.env.example` - Template file with placeholder values
 - `azure_cli.py` - Main CLI tool (no credentials)
 - `azure_manager.py` - Azure management library (no credentials)
+- `app.py` - Flask web application (no credentials)
 - `requirements.txt` - Python dependencies
 - `README.md` - Documentation
 - `CONNECTION_TEST_RESULTS.md` - Test results (credentials redacted)
 - `setup_azure_service_principal.md` - Setup guide
 - `SECURITY.md` - This security documentation
+- `templates/` - HTML templates (no credentials)
+- `static/` - CSS/JS files (no credentials)
+- `Dockerfile` - Container configuration (no credentials)
+- `docker-compose.yml` - Docker compose config (no credentials)
+- `DEPLOYMENT.md` - Deployment guide (no credentials)
 
 ## 🚨 Critical Security Actions Taken
 
@@ -47,6 +53,10 @@ The following files are **safe to commit** to version control:
 2. **Use `.env.example` as a template** for setting up credentials
 3. **Rotate credentials regularly** if they've been exposed
 4. **Use Azure Key Vault** for production environments
+5. **Change Flask secret key** in production environments
+6. **Use HTTPS** in production deployments
+7. **Implement proper authentication** for web app access
+8. **Validate all user inputs** to prevent injection attacks
 
 ### For Azure Credentials
 1. **Use least-privilege access** - Only grant necessary permissions
@@ -108,6 +118,10 @@ Before pushing to GitHub:
 - [ ] `.gitignore` is properly configured
 - [ ] Security notices are added to documentation
 - [ ] Credentials are rotated if previously exposed
+- [ ] Flask secret key is changed from default in production
+- [ ] Web app endpoints are properly secured
+- [ ] No sensitive data in frontend JavaScript
+- [ ] Docker configurations don't expose secrets
 
 ## 🔍 Monitoring
 

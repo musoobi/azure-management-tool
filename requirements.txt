@@ -1,3 +1,4 @@
+# Azure SDK
 azure-identity>=1.15.0
 azure-mgmt-resource>=23.0.1
 azure-mgmt-compute>=30.3.0
@@ -7,7 +8,16 @@ azure-mgmt-web>=2.0.0
 azure-mgmt-sql>=3.0.1
 azure-mgmt-monitor>=5.0.0
 azure-mgmt-costmanagement>=4.0.0
+
+# Web Framework
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Utilities
 python-dotenv>=1.0.0
 click>=8.1.7
 rich>=13.7.0
 tabulate>=0.9.0
+
+# Production
+gunicorn>=21.0.0

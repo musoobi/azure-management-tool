@@ -56,3 +56,11 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+
+# Web App
+logs/
+*.log
+
+# Docker
+.dockerignore
+docker-compose.override.yml

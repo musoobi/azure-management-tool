@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Management Tool</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-cloud"></i> Azure Management Tool</h1>
+            <div class="header-controls">
+                <button id="themeToggle" class="theme-toggle" title="Toggle Dark/Light Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div id="auth-status" class="auth-status">
+                    <span class="loading">Checking authentication...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search and Filter Panel -->
+        <div class="search-panel">
+            <div class="search-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search resources..." />
+                </div>
+                <select id="resourceTypeFilter" class="filter-select">
+                    <option value="">All Types</option>
+                    <option value="vm">Virtual Machines</option>
+                    <option value="storage">Storage Accounts</option>
+                    <option value="webapp">Web Apps</option>
+                    <option value="resourcegroup">Resource Groups</option>
+                </select>
+                <select id="locationFilter" class="filter-select">
+                    <option value="">All Locations</option>
+                    <option value="eastus">East US</option>
+                    <option value="westus">West US</option>
+                    <option value="centralus">Central US</option>
+                </select>
+            </div>
+            <div id="filterInfo" class="filter-info">Showing all resources</div>
+        </div>
+
+        <main id="main-content">
+            <div id="loading" class="loading-container">
+                <div class="spinner"></div>
+                <p>Loading Azure resources...</p>
+            </div>
+
+            <div id="dashboard" class="dashboard" style="display: none;">
+                <!-- Enhanced Stats Grid with Cost -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-server"></i>
+                        <h3>Virtual Machines</h3>
+                        <p id="vm-count">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Storage Accounts</h3>
+                        <p id="storage-count">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-globe"></i>
+                        <h3>Web Apps</h3>
+                        <p id="webapp-count">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-folder"></i>
+                        <h3>Resource Groups</h3>
+                        <p id="rg-count">-</p>
+                    </div>
+                    <div class="stat-card cost-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Estimated Monthly Cost</h3>
+                        <p id="cost-display">$-</p>
+                    </div>
+                </div>
+
+                <div class="resources-section">
+                    <h2>Resource Groups</h2>
+                    <div id="resource-groups" class="resource-list"></div>
+                </div>
+
+                <div class="resources-section">
+                    <h2>Virtual Machines</h2>
+                    <div id="virtual-machines" class="resource-list"></div>
+                </div>
+
+                <div class="resources-section">
+                    <h2>Storage Accounts</h2>
+                    <div id="storage-accounts" class="resource-list"></div>
+                </div>
+
+                <div class="resources-section">
+                    <h2>Web Apps</h2>
+                    <div id="web-apps" class="resource-list"></div>
+                </div>
+            </div>
+
+            <div id="error" class="error-container" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Authentication Error</h2>
+                <p id="error-message">Unable to connect to Azure. Please check your credentials.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Resource Details Modal -->
+    <div id="resourceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Resource Details</h2>
+                <span class="modal-close" onclick="dashboard.closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
