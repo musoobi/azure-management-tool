@@ -1,0 +1,16 @@
+Collecting azure-mgmt-desktopvirtualization
+  Downloading azure_mgmt_desktopvirtualization-2.0.0-py3-none-any.whl.metadata (12 kB)
+Requirement already satisfied: isodate>=0.6.1 in ./azure_env/lib/python3.13/site-packages (from azure-mgmt-desktopvirtualization) (0.7.2)
+Requirement already satisfied: typing-extensions>=4.6.0 in ./azure_env/lib/python3.13/site-packages (from azure-mgmt-desktopvirtualization) (4.14.1)
+Requirement already satisfied: azure-common>=1.1 in ./azure_env/lib/python3.13/site-packages (from azure-mgmt-desktopvirtualization) (1.1.28)
+Requirement already satisfied: azure-mgmt-core>=1.3.2 in ./azure_env/lib/python3.13/site-packages (from azure-mgmt-desktopvirtualization) (1.6.0)
+Requirement already satisfied: azure-core>=1.32.0 in ./azure_env/lib/python3.13/site-packages (from azure-mgmt-core>=1.3.2->azure-mgmt-desktopvirtualization) (1.35.0)
+Requirement already satisfied: requests>=2.21.0 in ./azure_env/lib/python3.13/site-packages (from azure-core>=1.32.0->azure-mgmt-core>=1.3.2->azure-mgmt-desktopvirtualization) (2.32.4)
+Requirement already satisfied: six>=1.11.0 in ./azure_env/lib/python3.13/site-packages (from azure-core>=1.32.0->azure-mgmt-core>=1.3.2->azure-mgmt-desktopvirtualization) (1.17.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./azure_env/lib/python3.13/site-packages (from requests>=2.21.0->azure-core>=1.32.0->azure-mgmt-core>=1.3.2->azure-mgmt-desktopvirtualization) (3.4.3)
+Requirement already satisfied: idna<4,>=2.5 in ./azure_env/lib/python3.13/site-packages (from requests>=2.21.0->azure-core>=1.32.0->azure-mgmt-core>=1.3.2->azure-mgmt-desktopvirtualization) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in ./azure_env/lib/python3.13/site-packages (from requests>=2.21.0->azure-core>=1.32.0->azure-mgmt-core>=1.3.2->azure-mgmt-desktopvirtualization) (2.5.0)
+Requirement already satisfied: certifi>=2017.4.17 in ./azure_env/lib/python3.13/site-packages (from requests>=2.21.0->azure-core>=1.32.0->azure-mgmt-core>=1.3.2->azure-mgmt-desktopvirtualization) (2025.8.3)
+Downloading azure_mgmt_desktopvirtualization-2.0.0-py3-none-any.whl (196 kB)
+Installing collected packages: azure-mgmt-desktopvirtualization
+Successfully installed azure-mgmt-desktopvirtualization-2.0.0

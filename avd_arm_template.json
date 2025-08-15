@@ -1,0 +1,157 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": {
+        "type": "string",
+        "defaultValue": "eastus",
+        "metadata": {
+          "description": "Location for all resources"
+        }
+      },
+      "resourceGroupName": {
+        "type": "string",
+        "defaultValue": "avd-rg",
+        "metadata": {
+          "description": "Resource group name"
+        }
+      },
+      "vnetName": {
+        "type": "string",
+        "defaultValue": "avd-vnet",
+        "metadata": {
+          "description": "Virtual network name"
+        }
+      },
+      "subnetName": {
+        "type": "string",
+        "defaultValue": "avd-subnet",
+        "metadata": {
+          "description": "Subnet name"
+        }
+      },
+      "hostPoolName": {
+        "type": "string",
+        "defaultValue": "avd-host-pool",
+        "metadata": {
+          "description": "AVD host pool name"
+        }
+      },
+      "workspaceName": {
+        "type": "string",
+        "defaultValue": "avd-workspace",
+        "metadata": {
+          "description": "AVD workspace name"
+        }
+      },
+      "applicationGroupName": {
+        "type": "string",
+        "defaultValue": "avd-app-group",
+        "metadata": {
+          "description": "AVD application group name"
+        }
+      }
+    },
+    "variables": {
+      "vnetAddressPrefix": "10.0.0.0/16",
+      "subnetAddressPrefix": "10.0.1.0/24"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2021-05-01",
+        "name": "[parameters('vnetName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "[variables('vnetAddressPrefix')]"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "[parameters('subnetName')]",
+              "properties": {
+                "addressPrefix": "[variables('subnetAddressPrefix')]",
+                "networkSecurityGroup": {
+                  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('vnetName'), '-nsg'))]"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2021-05-01",
+        "name": "[concat(parameters('vnetName'), '-nsg')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "AllowRDP",
+              "properties": {
+                "priority": 1000,
+                "protocol": "Tcp",
+                "access": "Allow",
+                "direction": "Inbound",
+                "sourceAddressPrefix": "*",
+                "sourcePortRange": "*",
+                "destinationAddressPrefix": "*",
+                "destinationPortRange": "3389"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.DesktopVirtualization/hostPools",
+        "apiVersion": "2021-09-03-preview",
+        "name": "[parameters('hostPoolName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "hostPoolType": "Pooled",
+          "loadBalancerType": "BreadthFirst",
+          "maxSessionLimit": 10,
+          "personalDesktopAssignmentType": "Automatic",
+          "registrationInfo": {
+            "expirationTime": "2025-12-31T23:59:59.999Z",
+            "registrationTokenOperation": "Update"
+          }
+        }
+      },
+      {
+        "type": "Microsoft.DesktopVirtualization/workspaces",
+        "apiVersion": "2021-09-03-preview",
+        "name": "[parameters('workspaceName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "description": "AVD Workspace for Free Tier"
+        }
+      },
+      {
+        "type": "Microsoft.DesktopVirtualization/applicationGroups",
+        "apiVersion": "2021-09-03-preview",
+        "name": "[parameters('applicationGroupName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "hostPoolArmPath": "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('hostPoolName'))]",
+          "applicationGroupType": "Desktop"
+        }
+      }
+    ],
+    "outputs": {
+      "hostPoolId": {
+        "type": "string",
+        "value": "[resourceId('Microsoft.DesktopVirtualization/hostPools', parameters('hostPoolName'))]"
+      },
+      "workspaceId": {
+        "type": "string",
+        "value": "[resourceId('Microsoft.DesktopVirtualization/workspaces', parameters('workspaceName'))]"
+      },
+      "applicationGroupId": {
+        "type": "string",
+        "value": "[resourceId('Microsoft.DesktopVirtualization/applicationGroups', parameters('applicationGroupName'))]"
+      }
+    }
+  }
