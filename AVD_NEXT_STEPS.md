@@ -12,8 +12,8 @@
 **VM Details:**
 - **Name:** avd-host-01
 - **IP:** [Get from Azure Portal]
-- **Username:** avdadmin
-- **Password:** AVD@dmin123!
+- **Username:** avdadmin (or set via AVD_ADMIN_USERNAME env var)
+- **Password:** Set via AVD_ADMIN_PASSWORD environment variable
 
 **Steps:**
 1. Go to Azure Portal → Virtual Machines → avd-host-01

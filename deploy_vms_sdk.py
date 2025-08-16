@@ -63,8 +63,8 @@ def deploy_session_hosts():
             },
             'os_profile': {
                 'computer_name': computer_name,
-                'admin_username': 'avdadmin',
-                'admin_password': 'AVD@dmin123!'
+                        'admin_username': os.getenv("AVD_ADMIN_USERNAME", "avdadmin"),
+        'admin_password': os.getenv("AVD_ADMIN_PASSWORD", "CHANGE_THIS_PASSWORD")
             },
             'network_profile': {
                 'network_interfaces': [{

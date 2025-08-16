@@ -54,8 +54,8 @@ def complete_avd_setup():
         print(f"   📋 VM Name: {vm.name}")
         print(f"   📋 Size: {vm.hardware_profile.vm_size}")
         print(f"   📋 Location: {vm.location}")
-        print(f"   📋 Admin Username: avdadmin")
-        print(f"   📋 Admin Password: AVD@dmin123!")
+        print(f"   📋 Admin Username: {os.getenv('AVD_ADMIN_USERNAME', 'avdadmin')}")
+        print(f"   📋 Admin Password: [HIDDEN - Set via AVD_ADMIN_PASSWORD env var]")
         
         # Get VM status
         try:

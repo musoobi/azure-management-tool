@@ -53,8 +53,8 @@ def restart_vm():
         
         print(f"\n🔗 Connection Details:")
         print(f"   Public IP: 172.190.184.16")
-        print(f"   Username: avdadmin")
-        print(f"   Password: AVD@dmin123!")
+        print(f"   Username: {os.getenv('AVD_ADMIN_USERNAME', 'avdadmin')}")
+        print(f"   Password: [HIDDEN - Set via AVD_ADMIN_PASSWORD env var]")
         
     except Exception as e:
         print(f"❌ Error: {e}")

@@ -9,8 +9,8 @@ RESOURCE_GROUP="avd-rg"
 LOCATION="eastus"
 VM_SIZE="Standard_B1s"  # Free tier friendly
 VM_COUNT=1
-ADMIN_USERNAME="avdadmin"
-ADMIN_PASSWORD="AVD@dmin123!"  # Change this in production!
+ADMIN_USERNAME="${AVD_ADMIN_USERNAME:-avdadmin}"
+ADMIN_PASSWORD="${AVD_ADMIN_PASSWORD:-CHANGE_THIS_PASSWORD}"  # Set via environment variable
 
 # Colors for output
 RED='\033[0;31m'

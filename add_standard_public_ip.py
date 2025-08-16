@@ -58,8 +58,8 @@ def add_standard_public_ip():
         print("✅ NIC updated with public IP")
         print(f"\n🎉 Connection Details:")
         print(f"   Public IP: {public_ip.ip_address}")
-        print(f"   Username: avdadmin")
-        print(f"   Password: AVD@dmin123!")
+        print(f"   Username: {os.getenv('AVD_ADMIN_USERNAME', 'avdadmin')}")
+        print(f"   Password: [HIDDEN - Set via AVD_ADMIN_PASSWORD env var]")
         print(f"   Port: 3389 (RDP)")
         
         print(f"\n🔧 Connect from Ubuntu:")
@@ -69,7 +69,7 @@ def add_standard_public_ip():
         
         print(f"\n   # Or use xfreerdp (command line)")
         print(f"   sudo apt install freerdp2-x11")
-        print(f"   xfreerdp /v:{public_ip.ip_address} /u:avdadmin /p:AVD@dmin123!")
+        print(f"   xfreerdp /v:{public_ip.ip_address} /u:{os.getenv('AVD_ADMIN_USERNAME', 'avdadmin')} /p:$AVD_ADMIN_PASSWORD")
         
     except Exception as e:
         print(f"❌ Error: {e}")

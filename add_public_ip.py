@@ -54,8 +54,8 @@ def add_public_ip():
         
         print("✅ NIC updated with public IP")
         print(f"   You can now connect to: {public_ip.ip_address}")
-        print(f"   Username: avdadmin")
-        print(f"   Password: AVD@dmin123!")
+        print(f"   Username: {os.getenv('AVD_ADMIN_USERNAME', 'avdadmin')}")
+        print(f"   Password: [HIDDEN - Set via AVD_ADMIN_PASSWORD env var]")
         
     except Exception as e:
         print(f"❌ Error: {e}")

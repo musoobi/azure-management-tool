@@ -198,8 +198,8 @@ class AVDDeployer:
                 },
                 "os_profile": {
                     "computer_name": vm_name,
-                    "admin_username": "avdadmin",
-                    "admin_password": "AVD@dmin123!"  # In production, use secure password management
+                            "admin_username": os.getenv("AVD_ADMIN_USERNAME", "avdadmin"),
+        "admin_password": os.getenv("AVD_ADMIN_PASSWORD", "CHANGE_THIS_PASSWORD")
                 },
                 "network_profile": {
                     "network_interfaces": [
