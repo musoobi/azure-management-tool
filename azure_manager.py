@@ -157,15 +157,27 @@ class AzureManager:
                 vm_list = client.virtual_machines.list_all()
             
             for vm in vm_list:
-                vms.append({
-                    'name': vm.name,
-                    'resource_group': vm.id.split('/')[4],
-                    'location': vm.location,
-                    'vm_size': vm.hardware_profile.vm_size,
-                    'os_type': vm.storage_profile.os_disk.os_type.value if vm.storage_profile.os_disk.os_type else 'Unknown',
-                    'power_state': self._get_vm_power_state(client, vm.id.split('/')[4], vm.name),
-                    'tags': vm.tags or {}
-                })
+                try:
+                    # Handle os_type properly - it can be a string or an object
+                    os_type = 'Unknown'
+                    if vm.storage_profile.os_disk.os_type:
+                        if hasattr(vm.storage_profile.os_disk.os_type, 'value'):
+                            os_type = vm.storage_profile.os_disk.os_type.value
+                        else:
+                            os_type = str(vm.storage_profile.os_disk.os_type)
+                    
+                    vms.append({
+                        'name': vm.name,
+                        'resource_group': vm.id.split('/')[4],
+                        'location': vm.location,
+                        'vm_size': vm.hardware_profile.vm_size,
+                        'os_type': os_type,
+                        'power_state': self._get_vm_power_state(client, vm.id.split('/')[4], vm.name),
+                        'tags': vm.tags or {}
+                    })
+                except Exception as vm_error:
+                    console.print(f"[yellow]Warning: Error processing VM {vm.name if hasattr(vm, 'name') else 'Unknown'}: {str(vm_error)}[/yellow]")
+                    continue
             
             return vms
             
