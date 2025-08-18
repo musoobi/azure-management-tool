@@ -1,3 +1,4 @@
+<img width="1727" height="853" alt="Image" src="https://github.com/user-attachments/assets/02cd3fc1-7402-406a-a6a9-e07c33ffd9ab" />
 # Azure Management Dashboard Tool
 
 A comprehensive Python-based web application for creating custom Azure resource dashboards and extending controlled access to end users without granting them direct Azure portal access. This tool provides a secure, user-friendly interface for managing Azure resources while maintaining security and access control.
