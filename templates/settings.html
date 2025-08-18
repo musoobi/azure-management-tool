@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Settings - Azure Management Tool</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .settings-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .settings-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+        
+        .settings-header h1 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: var(--text-primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--secondary-hover);
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #229954;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .connection-status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .connection-success {
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+        
+        .connection-error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        
+        .connection-loading {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+        
+        .loading-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+        
+        .back-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="settings-container">
+            <a href="/dashboard" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+            
+            <div class="settings-card">
+                <div class="settings-header">
+                    <i class="fas fa-cog fa-2x" style="color: var(--primary-color);"></i>
+                    <h1>Azure Configuration Settings</h1>
+                </div>
+                
+                <div style="background: rgba(52, 152, 219, 0.1); border: 1px solid #3498db; color: #3498db; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Security Notice:</strong> All fields start blank for security. Please enter your Azure credentials manually.
+                </div>
+                
+                <div id="connectionStatus" class="connection-status" style="display: none;">
+                    <!-- Connection status will be displayed here -->
+                </div>
+                
+                <form id="azureSettingsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subscription_id">
+                                Subscription ID <span class="required">*</span>
+                            </label>
+                            <input type="text" id="subscription_id" name="subscription_id" required>
+                            <div class="help-text">Your Azure subscription ID (GUID format)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tenant_id">
+                                Tenant ID <span class="required">*</span>
+                            </label>
+                            <input type="text" id="tenant_id" name="tenant_id" required>
+                            <div class="help-text">Your Azure AD tenant ID (GUID format)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client_id">
+                                Client ID <span class="required">*</span>
+                            </label>
+                            <input type="text" id="client_id" name="client_id" required>
+                            <div class="help-text">Application (client) ID from your service principal</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="client_secret">
+                                Client Secret <span class="required">*</span>
+                            </label>
+                            <input type="password" id="client_secret" name="client_secret" required>
+                            <div class="help-text">Client secret from your service principal</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="default_location">Default Location</label>
+                            <select id="default_location" name="default_location">
+                                <option value="East US">East US</option>
+                                <option value="West US">West US</option>
+                                <option value="Central US">Central US</option>
+                                <option value="North Europe">North Europe</option>
+                                <option value="West Europe">West Europe</option>
+                                <option value="Southeast Asia">Southeast Asia</option>
+                                <option value="East Asia">East Asia</option>
+                                <option value="Australia East">Australia East</option>
+                                <option value="Australia Southeast">Australia Southeast</option>
+                            </select>
+                            <div class="help-text">Default Azure region for new resources</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="default_resource_group">Default Resource Group</label>
+                            <input type="text" id="default_resource_group" name="default_resource_group">
+                            <div class="help-text">Default resource group name for new resources</div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Save Configuration
+                        </button>
+                        
+                        <button type="button" class="btn btn-success" onclick="testConnection()">
+                            <i class="fas fa-plug"></i>
+                            Test Connection
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="settings-card">
+                <h2><i class="fas fa-info-circle"></i> How to Get Azure Credentials</h2>
+                <div style="color: var(--text-secondary); line-height: 1.6;">
+                    <p><strong>1. Create a Service Principal:</strong></p>
+                    <ul>
+                        <li>Go to Azure Portal → Azure Active Directory → App registrations</li>
+                        <li>Click "New registration" and create a new app</li>
+                        <li>Note down the Application (client) ID and Directory (tenant) ID</li>
+                    </ul>
+                    
+                    <p><strong>2. Create a Client Secret:</strong></p>
+                    <ul>
+                        <li>In your app registration, go to "Certificates & secrets"</li>
+                        <li>Click "New client secret" and create a new secret</li>
+                        <li>Copy the secret value immediately (you won't see it again)</li>
+                    </ul>
+                    
+                    <p><strong>3. Assign Permissions:</strong></p>
+                    <ul>
+                        <li>Go to "API permissions" and add the required permissions</li>
+                        <li>For resource management, add "Contributor" role to your subscription</li>
+                    </ul>
+                    
+                    <p><strong>4. Get Subscription ID:</strong></p>
+                    <ul>
+                        <li>Go to Azure Portal → Subscriptions</li>
+                        <li>Copy your subscription ID (GUID format)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page loads with blank fields for security
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fields are already blank by default
+        });
+
+
+
+        async function testConnection() {
+            showConnectionStatus('loading', 'Testing Azure connection...');
+            
+            try {
+                const response = await fetch('/api/settings/test-connection');
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    showConnectionStatus('success', result.message);
+                } else {
+                    showConnectionStatus('error', result.error || 'Connection test failed');
+                }
+            } catch (error) {
+                showConnectionStatus('error', 'Connection test failed: ' + error.message);
+            }
+        }
+
+        function showConnectionStatus(type, message) {
+            const statusDiv = document.getElementById('connectionStatus');
+            statusDiv.className = `connection-status connection-${type}`;
+            
+            let icon = '';
+            switch (type) {
+                case 'success':
+                    icon = '<i class="fas fa-check-circle"></i>';
+                    break;
+                case 'error':
+                    icon = '<i class="fas fa-exclamation-circle"></i>';
+                    break;
+                case 'loading':
+                    icon = '<div class="loading-spinner"></div>';
+                    break;
+            }
+            
+            statusDiv.innerHTML = `${icon} ${message}`;
+            statusDiv.style.display = 'flex';
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        document.getElementById('azureSettingsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const settings = {
+                subscription_id: formData.get('subscription_id'),
+                tenant_id: formData.get('tenant_id'),
+                client_id: formData.get('client_id'),
+                client_secret: formData.get('client_secret'),
+                default_location: formData.get('default_location'),
+                default_resource_group: formData.get('default_resource_group')
+            };
+            
+            showConnectionStatus('loading', 'Saving configuration...');
+            
+            try {
+                const response = await fetch('/api/settings/azure', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(settings)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    showConnectionStatus('success', result.message);
+                } else {
+                    showConnectionStatus('error', result.error || 'Failed to save configuration');
+                }
+            } catch (error) {
+                showConnectionStatus('error', 'Failed to save configuration: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
