@@ -1,0 +1,57 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint import
+        run: |
+          python - << 'PY'
+          import pkgutil
+          # Attempt to import key modules to catch immediate import errors
+          modules = [
+              'flask', 'azure.identity', 'azure.mgmt.resource', 'azure.mgmt.compute',
+              'azure.mgmt.network', 'azure.mgmt.storage', 'azure.mgmt.web']
+          missing = []
+          for m in modules:
+              try:
+                  __import__(m)
+              except Exception as e:
+                  missing.append(f"{m}: {e}")
+          if missing:
+              raise SystemExit("Import check failed:\n" + "\n".join(missing))
+          print("Imports OK")
+          PY
+
+      - name: Build Docker image
+        if: github.event_name == 'pull_request'
+        run: docker build . --file Dockerfile --tag test-image:ci
+
+
